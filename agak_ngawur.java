@@ -6,6 +6,7 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
+import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
@@ -20,38 +21,65 @@ import java.util.ArrayList;
 
 public class testtremaux2 {
 	RegulatedMotor motorA;
-	RegulatedMotor motorB;
+	RegulatedMotor motorD;
 	EV3ColorSensor eyesensor;
 	EV3UltrasonicSensor earsensor;
 	float[] sample;
 	
 	public void moveForward() {
-		this.motorA.rotate(614);
-		this.motorB.rotate(614);
-		//Delay.msDelay(delay);
+		RegulatedMotor[] motors = {this.motorD};
+		for (int i = 0; i <= 614; i++) {
+			this.motorA.synchronizeWith(motors);
+			this.motorA.startSynchronization();
+			this.motorA.rotate(614);
+			this.motorD.rotate(614);
+			this.motorA.endSynchronization();
+		}
+		
 	}
 	
 	public void moveBackward() {
-		this.motorA.rotate(-614);
-		this.motorB.rotate(-614);
 		//Delay.msDelay(delay);
+		RegulatedMotor[] motors = {this.motorD};
+		for (int i = 0; i <= 614; i++) {
+			this.motorA.synchronizeWith(motors);
+			this.motorA.startSynchronization();
+			this.motorA.rotate(-614);
+			this.motorD.rotate(-614);
+			this.motorA.endSynchronization();
+		}
 	}
 	
 	public void moveLeft() {
-		this.motorA.rotate(-180);
-		this.motorB.rotate(180);
+//		this.motorA.rotate(-180);
+//		this.motorD.rotate(180);
 		//Delay.msDelay(delay);
+		RegulatedMotor[] motors = {this.motorD};
+		for (int i = 0; i <= 180; i++) {
+			this.motorA.synchronizeWith(motors);
+			this.motorA.startSynchronization();
+			this.motorA.rotate(-180);
+			this.motorD.rotate(180);
+			this.motorA.endSynchronization();
+		}
 	}
 	
 	public void moveRight() {
-		this.motorA.rotate(180);
-		this.motorB.rotate(-180);
+		
+		RegulatedMotor[] motors = {this.motorD};
+		for (int i = 0; i <= 180; i++) {
+			this.motorA.synchronizeWith(motors);
+			this.motorA.startSynchronization();
+			this.motorA.rotate(180);
+			this.motorD.rotate(180);
+			this.motorA.endSynchronization();
+		}
 		//Delay.msDelay(delay);
 	}
 	
-	public testtremaux2(Port motorAPort, Port motorBPort) {
+	public testtremaux2(Port motorAPort, Port motorDPort) {
 		this.motorA = new EV3LargeRegulatedMotor(motorAPort);
-		this.motorB = new EV3LargeRegulatedMotor(motorBPort);
+		this.motorD = new EV3LargeRegulatedMotor(motorDPort);
 		//sensor = new EV3ColorSensor(port);
 		//setAmbientMode();
 		//setFloodLight(false);
@@ -65,16 +93,16 @@ public class testtremaux2 {
 		}
 		return 1;
 	}
-	public int junction() {
-		this.moveLeft();
-		if
-		return 0;
-	}
+//	public int junction() {
+//		this.moveLeft();
+//		if
+//		return 0;
+//	}
 	public static void main(String args[]) {
 		int x = 0, y = 0;
 		testtremaux2 mC = new testtremaux2(MotorPort.A, MotorPort.D);
 		EV3UltrasonicSensor soundSensor = new EV3UltrasonicSensor(SensorPort.S1);
-		SensorMode mode = soundSensor.getRedMode();
+		SampleProvider mode = soundSensor.getDistanceMode();
 		while(true) {
 			LCD.drawString(String.format("Lebar Maze : %d", x), 0, 0);
 			Button.UP.waitForPress();
@@ -156,11 +184,16 @@ public class testtremaux2 {
 			LCD.clear();
 		}
 		
-		//int tempe = inside_maze(starting_point[0], starting_point[1]);
-		//EV3LargeRegulatedMotor largeMotorkiri = new EV3LargeRegulatedMotor(MotorPort.A);
-		//EV3LargeRegulatedMotor largeMotorkanan = new EV3LargeRegulatedMotor(MotorPort.D);
+		//test motor
+//		mC.moveForward();
+//		mC.moveBackward();
+//		mC.moveLeft();
+//		mC.moveRight();
+		int tempe = inside_maze(starting_point[0], starting_point[1]);
+		EV3LargeRegulatedMotor largeMotorkiri = new EV3LargeRegulatedMotor(MotorPort.A);
+		EV3LargeRegulatedMotor largeMotorkanan = new EV3LargeRegulatedMotor(MotorPort.D);
 		
-		while(inside_maze(y, x) != 0){
+		while(inside_maze(starting_point[0], starting_point[1]) != 0){
 			if
 		}
 //			if(junction() == True) {
