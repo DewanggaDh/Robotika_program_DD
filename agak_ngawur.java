@@ -34,16 +34,15 @@ public class testtremaux2 {
 	SampleProvider empat;
 	
 	public void moveForward() {
-		//RegulatedMotor[] motors = {this.motorD};
-//		for (int i = 0; i <= 307; i++) {
-//			this.motorA.synchronizeWith(motors);
-//			this.motorA.startSynchronization();
-//			this.motorA.rotate(307);
-//			this.motorD.rotate(307);
-//			this.motorA.endSynchronization();
-//		}
-		this.motorA.forward();
-		this.motorD.forward();
+		RegulatedMotor[] motors = {this.motorD};
+		//for (int i = 0; i <= 307; i++) {
+			this.motorA.synchronizeWith(motors);
+			this.motorA.startSynchronization();
+			this.motorA.rotate(307);
+			this.motorD.rotate(307);
+			this.motorA.endSynchronization();
+		//this.motorA.forward();
+		//this.motorD.forward();
 		
 	}
 	
@@ -356,8 +355,9 @@ public class testtremaux2 {
 			
 		while(!Button.ESCAPE.isDown()) {
 			//LCD.drawString(String.format("Derajat : %d", mC.kompas()), 0, 0);
-			mC.motorA.forward();
-			mC.motorD.forward();
+			mC.moveForward();
+//			mC.motorA.forward();
+//			mC.motorD.forward();
 			if(mC.check_sound() <= 0.05) {
 				mC.moveLeft();
 				mC.motorA.stop();
@@ -374,6 +374,7 @@ public class testtremaux2 {
 					}
 				}
 			}
+			
 			//LCD.clear();
 			
 //			LCD.drawString(String.format("White = %d", mC.kompas()), 0, 0);
