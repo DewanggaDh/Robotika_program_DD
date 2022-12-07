@@ -119,11 +119,12 @@ public class testtremaux2 {
 		touch.fetchSample(touching,0);
 		return (int)touching[0];
 	}
-	public int kompas() {
+	public float kompas() {
 		empat = arah.getAngleMode();
-		float[] four = new float[touch.sampleSize()];
-		touch.fetchSample(four, 0);
-		return (int)four[0];
+		float[] four = new float[empat.sampleSize()];
+		empat.fetchSample(four, 0);
+		LCD.drawString(String.format("Derajat : %.2f", (float)four[0]), 0, 0);
+		return (float)four[0];
 	}
 	public void moveRight() {
 //		this.motorA.rotate(-180);
@@ -137,10 +138,16 @@ public class testtremaux2 {
 //			this.motorD.rotate(90);
 //			this.motorA.endSynchronization();
 //		}
-		while(kompas() < 270) {
+		while(kompas() > -90) {
+			//this.motorA.backward();
+//			this.motorD.forward();
+			this.motorA.setSpeed(90);
+			this.motorD.setSpeed(90);
 			this.motorA.backward();
 			this.motorD.forward();
 		}
+		//this.motorA.stop();
+		//this.motorD.stop();
 		arah.reset();
 	}
 	
@@ -155,10 +162,14 @@ public class testtremaux2 {
 //			this.motorA.endSynchronization();
 //		}
 		//Delay.msDelay(delay);
-		while(kompas() < 270) {
+		while(kompas() < 90) {
+			this.motorA.setSpeed(90);
+			this.motorD.setSpeed(90);
 			this.motorA.forward();
 			this.motorD.backward();
 		}
+		//this.motorA.stop();
+		//this.motorD.stop();
 		arah.reset();
 	}
 	public static void main(String args[]) {
@@ -341,20 +352,32 @@ public class testtremaux2 {
 			}
 			//empat.fetchSample(four, 0);
 		}
+		LCD.clear();
 			
 		while(!Button.ESCAPE.isDown()) {
+			//LCD.drawString(String.format("Derajat : %d", mC.kompas()), 0, 0);
 			mC.motorA.forward();
 			mC.motorD.forward();
 			if(mC.check_sound() <= 0.05) {
 				mC.moveLeft();
+				mC.motorA.stop();
+				mC.motorD.stop();
 				if(mC.check_sound() <= 0.05) {
 					mC.moveRight();
+					mC.motorA.stop();
+					mC.motorA.stop();
 					mC.moveRight();
+					mC.motorA.stop();
+					mC.motorA.stop();
 					if(mC.check_sound() <= 0.05) {
 						mC.moveRight();
 					}
 				}
 			}
+			//LCD.clear();
+			
+//			LCD.drawString(String.format("White = %d", mC.kompas()), 0, 0);
+			
 //			//if far wall jalan
 //			//if near wall, stop
 //			//move left
